@@ -13,3 +13,4 @@
 *.bat eol=crlf
 
 # Denote all files that are truly binary and should not be modified.
+*.jar binary
