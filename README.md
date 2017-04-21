@@ -1,1 +1,2 @@
+# omnilink
 Java implementation of the Omni-Link Serial Protocol and Network Protocol as well as the Omni-Link II Network Protocol as described in two separate specification documents released by Home Automation Inc (HAI).
