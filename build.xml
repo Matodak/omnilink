@@ -1,0 +1,124 @@
+<?xml version='1.0'?>
+<project name="OmniLink" default="compile" basedir=".">
+
+	<property name="src" value="${basedir}/src/main"/>
+  	<property name="samples.src" value="${basedir}/src/samples"/>	
+  	<property name="build" value="${basedir}/build"/>
+  	<property name="classes" value="${build}/classes"/>	
+  	<property name="dist" value="${basedir}/dist"/>	
+  	<property name="lib" value="${basedir}/lib"/>
+  	<property name="jars" value="${build}/jars"/>	
+  	<property name="javadoc" value="${build}/javadoc"/>
+  	<property name="etc" value="${basedir}/etc"/>
+  	<property name="doc" value="${basedir}/doc"/>
+  
+	<path id="classpath">
+       	<pathelement location="${lib}/RXTXcomm.jar"/>
+    </path>
+
+	<target name="compile">
+		<mkdir dir="${classes}"/>		
+    	<javac srcdir="${src}" destdir="${classes}" classpathref="classpath" debug="true"/>
+        <javac srcdir="${samples.src}" destdir="${classes}" classpathref="classpath" debug="true"/>		
+		<rmic base="${classes}" classname="net.homeip.mleclerc.omnilink.CommunicationService"/>
+	 </target>
+
+  	<target name="jar" depends="compile">
+  		<mkdir dir="${jars}"/>
+    	<jar jarfile="${jars}/omnilink-client.jar" basedir="${classes}" includesfile="${etc}/buildinfo/omnilink-client.jar.txt"/>
+       	<jar jarfile="${jars}/omnilink-server.jar" basedir="${classes}" includesfile="${etc}/buildinfo/omnilink-server.jar.txt"/>  		
+       	<jar jarfile="${jars}/omnilink.jar" basedir="${classes}" includesfile="${etc}/buildinfo/omnilink.jar.txt"/>  		  		
+	</target>
+  
+	<target name="dist" depends="jar, javadoc">
+		<mkdir dir="${dist}/omnilink"/>
+		<mkdir dir="${dist}/omnilink/doc"/>
+		<mkdir dir="${dist}/omnilink/doc/api"/>
+		<mkdir dir="${dist}/omnilink/lib"/>
+		<mkdir dir="${dist}/omnilink/samples"/>
+		<mkdir dir="${dist}/omnilink/samples/console"/>		
+		<mkdir dir="${dist}/omnilink/samples/testdriver"/>
+		
+		<copy file="${doc}/readme.txt" todir="${dist}/omnilink"/>
+		<copy file="${doc}/Omni-Link.pdf" todir="${dist}/omnilink/doc"/>		
+		<copy file="${doc}/Omni-Link_II_Rev_3.0.pdf" todir="${dist}/omnilink/doc"/>		
+		<copy todir="${dist}/omnilink/doc/api">
+			<fileset dir="${javadoc}"/>
+		</copy>
+		<copy todir="${dist}/omnilink/samples/console/serial">
+			<fileset dir="${samples.src}">
+				<include name="SerialMain.java"/>
+				<include name="Console.java"/>
+				<include name="MessageFactory.java"/>
+			</fileset>
+			<fileset dir="${etc}/samples/console/serial"/>
+		</copy>
+		<copy todir="${dist}/omnilink/samples/console/network">
+			<fileset dir="${samples.src}">
+				<include name="NetworkMain.java"/>
+				<include name="Console.java"/>
+				<include name="MessageFactory.java"/>
+			</fileset>
+			<fileset dir="${etc}/samples/console/network"/>
+		</copy>
+		<copy todir="${dist}/omnilink/samples/testdriver/serial">
+			<fileset dir="${samples.src}">
+				<include name="SerialTestDriver.java"/>
+			</fileset>
+			<fileset dir="${etc}/samples/testdriver/serial"/>
+		</copy>	
+		<copy todir="${dist}/omnilink/samples/testdriver/network">
+			<fileset dir="${samples.src}">
+				<include name="NetworkTestDriver.java"/>
+			</fileset>
+			<fileset dir="${etc}/samples/testdriver/network"/>
+		</copy>	
+		
+		<copy file="${jars}/omnilink.jar" tofile="${dist}/omnilink/lib/omnilink.jar"/>
+		
+<!-- Obfuscation		
+		<mkdir dir="${build}/logs"/>
+		<java fork="true" classname="RetroGuard">
+			<classpath>
+				<pathelement path="${classpath}"/>
+				<pathelement location="${lib}/retroguard.jar"/>
+			</classpath>
+			<arg value="${jars}/omnilink.jar"/>
+			<arg value="${dist}/omnilink/lib/omnilink.jar"/>
+			<arg value="${etc}/obfuscation/script.rgs"/>
+			<arg value="${build}/logs/retroguard.log"/>			
+		</java>
+-->		
+		
+		<signjar keystore="${etc}/keystore/myKeystore" storepass="C1b2t3e4" jar="${dist}/omnilink/lib/omnilink.jar" alias="martin"/>
+		
+		<zip destfile="${dist}/omnilink.zip">
+			<zipfileset dir="${dist}/omnilink" prefix="omnilink"/>
+		</zip>
+	</target>
+	
+	<target name="run" depends="compile">
+		<java fork="true" classname="TestDriver">
+			<classpath>
+				<pathelement location="${classes}"/>				
+				<pathelement path="${classpath}"/>
+			</classpath>	
+			<arg value="1710"/>
+		</java>		
+	</target>
+		
+	<target name="javadoc" depends="compile">
+		<javadoc 
+            destdir="${javadoc}"
+			classpathref="classpath"			
+            windowtitle="OmniLink Java API">
+			<fileset dir="${src}"/>			
+	 	</javadoc>
+  	</target>
+    
+ 	<target name="clean">
+    	<delete dir="${build}"/>
+		<delete dir="${dist}"/> 		
+	</target>
+	
+</project>

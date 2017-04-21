@@ -1,0 +1,40 @@
+#!/bin/csh -f
+
+# === Set the location of the SDK ===
+if ($?JAVA_HOME == 0) then
+   set JAVA_HOME=$HOME/jdk1.6.10_12
+endif
+
+# === Root directory of this product ===
+set PRODUCT_HOME=../../../
+
+# === Make sure all the files are properly installed
+if (! -e $JAVA_HOME/bin/javac) then
+   echo "Error: $JAVA_HOME/bin/javac not found"
+   exit 1
+endif
+if (! -e $JAVA_HOME/bin/java) then
+   echo "Error: $JAVA_HOME/bin/java not found"
+   exit 1
+endif
+if (! -e $JAVA_HOME/jre/lib/i386/librxtxSerial.so) then
+   echo "Error: $JAVA_HOME/jre/lib/i386/librxtxSerial.so not found"
+   exit 1
+endif
+if (! -e $JAVA_HOME/jre/lib/ext/RXTXcomm.jar) then
+   echo "Error: $JAVA_HOME/jre/lib/ext/RXTXcomm.jar not found"
+   exit 1
+endif
+if (! -e $PRODUCT_HOME/lib/omnilink.jar) then
+   echo "Error: $PRODUCT_HOME/lib/omnilink.jar not found"
+   exit 1
+endif
+
+# === Set the CLASSPATH ===
+set CLASS_PATH=$PRODUCT_HOME/lib/omnilink.jar
+
+# === Compile the test driver code ===
+$JAVA_HOME/bin/javac -classpath $CLASS_PATH NetworkTestDriver.java
+
+# === Execute the test driver ====
+$JAVA_HOME/bin/java -classpath .:$CLASS_PATH NetworkTestDriver

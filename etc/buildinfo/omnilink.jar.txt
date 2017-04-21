@@ -1,0 +1,4 @@
+net/homeip/mleclerc/omnilink/*
+net/homeip/mleclerc/omnilink/enumeration/**
+net/homeip/mleclerc/omnilink/messagebase/**
+net/homeip/mleclerc/omnilink/message/**

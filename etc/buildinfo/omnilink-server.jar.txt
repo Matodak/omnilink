@@ -1,0 +1,15 @@
+net/homeip/mleclerc/omnilink/messagebase/**
+net/homeip/mleclerc/omnilink/enumeration/Enum.class
+net/homeip/mleclerc/omnilink/enumeration/EnumInfo.class
+net/homeip/mleclerc/omnilink/enumeration/NetworkMessageTypeEnum.class
+net/homeip/mleclerc/omnilink/enumeration/SystemTypeEnum.class
+net/homeip/mleclerc/omnilink/Communication.class
+net/homeip/mleclerc/omnilink/MessageManagerRemote.class
+net/homeip/mleclerc/omnilink/MessageManager.class
+net/homeip/mleclerc/omnilink/CommunicationException.class
+net/homeip/mleclerc/omnilink/CommunicationService.class
+net/homeip/mleclerc/omnilink/CommunicationService_Skel.class
+net/homeip/mleclerc/omnilink/BaseSerialCommunication.class
+net/homeip/mleclerc/omnilink/NetworkCommunication.class
+net/homeip/mleclerc/omnilink/NetworkCommunicationServer.class
+net/homeip/mleclerc/omnilink/SerialCommunication.class

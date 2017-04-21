@@ -1,0 +1,8 @@
+net/homeip/mleclerc/omnilink/enumeration/**
+net/homeip/mleclerc/omnilink/message/**
+net/homeip/mleclerc/omnilink/messagebase/**
+net/homeip/mleclerc/omnilink/MessageManager.class
+net/homeip/mleclerc/omnilink/MessageManagerRemote.class
+net/homeip/mleclerc/omnilink/CommunicationService_Stub.class
+net/homeip/mleclerc/omnilink/CommunicationException.class
+net/homeip/mleclerc/omnilink/MessageManager
